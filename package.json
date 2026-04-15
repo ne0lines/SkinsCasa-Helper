@@ -1,0 +1,54 @@
+{
+  "name": "skinscasa-helper",
+  "version": "0.1.0",
+  "private": true,
+  "productName": "SkinsCasa",
+  "type": "module",
+  "description": "SkinsCasa Helper desktop app for local Steam QR linking",
+  "author": "SkinsCasa",
+  "main": "main.mjs",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "icons": "bash ./scripts/generate-icons.sh",
+    "start": "electron .",
+    "start:server": "node index.mjs",
+    "dist": "electron-builder",
+    "dist:dir": "electron-builder --dir"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.4",
+    "steam-session": "^1.9.4"
+  },
+  "devDependencies": {
+    "electron": "^37.2.1",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.skinscasa.steamlink",
+    "directories": {
+      "buildResources": "build"
+    },
+    "files": [
+      "main.mjs",
+      "index.mjs",
+      "server.mjs",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "mac": {
+      "icon": "icon.icns",
+      "target": [
+        "dmg"
+      ],
+      "category": "public.app-category.utilities"
+    },
+    "win": {
+      "icon": "icon.ico",
+      "target": [
+        "nsis"
+      ]
+    }
+  }
+}
