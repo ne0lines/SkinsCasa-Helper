@@ -24,5 +24,6 @@ test("release workflow builds macOS and Windows installer assets", async () => {
 
   assert.match(workflow, /macos-latest/);
   assert.match(workflow, /windows-latest/);
+  assert.match(workflow, /publish:[\s\S]*actions\/checkout@v4[\s\S]*gh release create/);
   assert.match(workflow, /gh release create/);
 });
