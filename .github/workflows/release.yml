@@ -25,13 +25,18 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
-      - run: npm exec electron-builder -- --mac dmg --universal --publish never
+      - run: npm exec electron-builder -- --mac dmg --arm64 --publish never --config.mac.artifactName=SkinsCasa-macOS-Apple-Silicon.dmg
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+      - run: npm exec electron-builder -- --mac dmg --x64 --publish never --config.mac.artifactName=SkinsCasa-macOS-Intel.dmg
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: "false"
       - uses: actions/upload-artifact@v4
         with:
           name: SkinsCasa-macOS
-          path: dist/SkinsCasa-macOS.dmg
+          path: |
+            dist/SkinsCasa-macOS-Apple-Silicon.dmg
+            dist/SkinsCasa-macOS-Intel.dmg
 
   build-windows:
     runs-on: windows-latest

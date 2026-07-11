@@ -1,6 +1,6 @@
 {
   "name": "skinscasa-helper",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "productName": "SkinsCasa",
   "type": "module",
@@ -49,7 +49,7 @@
     ],
     "mac": {
       "icon": "icon.icns",
-      "artifactName": "SkinsCasa-macOS.${ext}",
+      "artifactName": "SkinsCasa-macOS-${arch}.${ext}",
       "target": [
         "dmg"
       ],

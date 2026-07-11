@@ -27,7 +27,7 @@ npm run dist
 
 This uses `electron-builder` and is configured for:
 
-- macOS: universal `SkinsCasa-macOS.dmg`
+- macOS: separate Apple Silicon and Intel DMGs
 - Windows: `SkinsCasa-Windows.exe`
 
 Tagging a version (`v*`) runs the GitHub Actions release workflow and publishes both

@@ -5,7 +5,7 @@ import test from "node:test";
 test("packaging emits stable installer names used by the dashboard", async () => {
   const packageJson = JSON.parse(await readFile(new URL("../package.json", import.meta.url)));
 
-  assert.equal(packageJson.build.mac.artifactName, "SkinsCasa-macOS.${ext}");
+  assert.equal(packageJson.build.mac.artifactName, "SkinsCasa-macOS-${arch}.${ext}");
   assert.equal(packageJson.build.win.artifactName, "SkinsCasa-Windows.${ext}");
   assert.ok(packageJson.build.files.includes("protocol.mjs"));
   assert.deepEqual(packageJson.build.protocols, [
@@ -24,6 +24,8 @@ test("release workflow builds macOS and Windows installer assets", async () => {
 
   assert.match(workflow, /macos-latest/);
   assert.match(workflow, /windows-latest/);
+  assert.match(workflow, /SkinsCasa-macOS-Apple-Silicon\.dmg/);
+  assert.match(workflow, /SkinsCasa-macOS-Intel\.dmg/);
   assert.match(workflow, /publish:[\s\S]*actions\/checkout@v4[\s\S]*gh release create/);
   assert.match(workflow, /gh release create/);
 });
