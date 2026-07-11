@@ -8,6 +8,12 @@ test("packaging emits stable installer names used by the dashboard", async () =>
   assert.equal(packageJson.build.mac.artifactName, "SkinsCasa-macOS.${ext}");
   assert.equal(packageJson.build.win.artifactName, "SkinsCasa-Windows.${ext}");
   assert.ok(packageJson.build.files.includes("protocol.mjs"));
+  assert.deepEqual(packageJson.build.protocols, [
+    {
+      name: "SkinsCasa",
+      schemes: ["skinscasa"],
+    },
+  ]);
 });
 
 test("release workflow builds macOS and Windows installer assets", async () => {
