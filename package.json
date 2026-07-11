@@ -14,6 +14,7 @@
     "icons": "bash ./scripts/generate-icons.sh",
     "start": "electron .",
     "start:server": "node index.mjs",
+    "test": "node --test test/*.test.mjs",
     "dist": "electron-builder",
     "dist:dir": "electron-builder --dir"
   },
@@ -33,12 +34,14 @@
     "files": [
       "main.mjs",
       "index.mjs",
+      "protocol.mjs",
       "server.mjs",
       "node_modules/**/*",
       "package.json"
     ],
     "mac": {
       "icon": "icon.icns",
+      "artifactName": "SkinsCasa-macOS.${ext}",
       "target": [
         "dmg"
       ],
@@ -46,6 +49,7 @@
     },
     "win": {
       "icon": "icon.ico",
+      "artifactName": "SkinsCasa-Windows.${ext}",
       "target": [
         "nsis"
       ]

@@ -27,8 +27,11 @@ npm run dist
 
 This uses `electron-builder` and is configured for:
 
-- macOS: `dmg`
-- Windows: `nsis`
+- macOS: universal `SkinsCasa-macOS.dmg`
+- Windows: `SkinsCasa-Windows.exe`
+
+Tagging a version (`v*`) runs the GitHub Actions release workflow and publishes both
+installer assets to GitHub Releases.
 
 Optional env vars:
 
@@ -37,11 +40,12 @@ Optional env vars:
 
 ## Use
 
-1. Keep the desktop app running on the same machine that will log into Steam.
-2. In dashboard settings, prepare a Steam link handoff.
-3. The app window will focus and show the Steam QR code.
-4. Scan the QR code in Steam Mobile and approve the login.
-5. The app posts the refresh token to the existing `/api/steam-link/redeem` route.
+1. Install the release for your operating system.
+2. Open it from the dashboard through `skinscasa://open` or start the app normally.
+3. In dashboard settings, prepare a Steam link handoff.
+4. The app window will focus and show the Steam QR code.
+5. Scan the QR code in Steam Mobile and approve the login.
+6. The app posts the refresh token to the existing `/api/steam-link/redeem` route.
 
 ## Backend Contract
 

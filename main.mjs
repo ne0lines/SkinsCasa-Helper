@@ -1,12 +1,15 @@
 import { app, BrowserWindow, shell } from "electron";
 
+import { findSkinsCasaProtocolUrl, isSkinsCasaProtocolUrl } from "./protocol.mjs";
 import { startSteamLinkServer } from "./server.mjs";
 
 const APP_ID = "com.skinscasa.steamlink";
+const PROTOCOL = "skinscasa";
 
 let mainWindow = null;
 let helperServer = null;
 let helperOrigin = null;
+let receivedProtocolUrl = findSkinsCasaProtocolUrl(process.argv);
 
 function isLocalHelperUrl(value) {
   return Boolean(helperOrigin) && value.startsWith(helperOrigin);
@@ -81,6 +84,23 @@ async function ensureWindowForSession(session) {
   mainWindow.focus();
 }
 
+async function focusMainWindow() {
+  if (!helperOrigin) {
+    return;
+  }
+
+  if (!mainWindow) {
+    await createMainWindow();
+  }
+
+  if (mainWindow?.isMinimized()) {
+    mainWindow.restore();
+  }
+
+  mainWindow?.show();
+  mainWindow?.focus();
+}
+
 const gotLock = app.requestSingleInstanceLock();
 
 if (!gotLock) {
@@ -88,18 +108,23 @@ if (!gotLock) {
 } else {
   app.setAppUserModelId(APP_ID);
 
-  app.on("second-instance", () => {
-    if (mainWindow) {
-      if (mainWindow.isMinimized()) {
-        mainWindow.restore();
-      }
-
-      mainWindow.show();
-      mainWindow.focus();
+  app.on("open-url", (event, url) => {
+    if (!isSkinsCasaProtocolUrl(url)) {
+      return;
     }
+
+    event.preventDefault();
+    receivedProtocolUrl = url;
+    void focusMainWindow();
+  });
+
+  app.on("second-instance", (_event, commandLine) => {
+    receivedProtocolUrl = findSkinsCasaProtocolUrl(commandLine) ?? receivedProtocolUrl;
+    void focusMainWindow();
   });
 
   app.whenReady().then(async () => {
+    app.setAsDefaultProtocolClient(PROTOCOL);
     helperServer = await startSteamLinkServer({
       onSessionCreated: (session) => {
         void ensureWindowForSession(session);
@@ -108,6 +133,10 @@ if (!gotLock) {
 
     helperOrigin = helperServer.origin;
     await createMainWindow();
+
+    if (receivedProtocolUrl) {
+      await focusMainWindow();
+    }
   });
 
   app.on("activate", async () => {
