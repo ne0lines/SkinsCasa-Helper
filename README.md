@@ -33,6 +33,11 @@ This uses `electron-builder` and is configured for:
 Tagging a version (`v*`) runs the GitHub Actions release workflow and publishes both
 installer assets to GitHub Releases.
 
+Current releases are not code-signed or notarized. On macOS, Control-click the app and
+choose **Open** if Gatekeeper blocks the first launch. On Windows, use **More info** then
+**Run anyway** if SmartScreen appears. Configure release signing before distributing beyond
+trusted users.
+
 Optional env vars:
 
 - `STEAM_LINK_HELPER_HOST`
