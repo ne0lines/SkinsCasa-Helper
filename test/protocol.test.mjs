@@ -6,6 +6,7 @@ import { findSkinsCasaProtocolUrl, isSkinsCasaProtocolUrl } from "../protocol.mj
 test("accepts only the SkinsCasa open deeplink", () => {
   assert.equal(isSkinsCasaProtocolUrl("skinscasa://open"), true);
   assert.equal(isSkinsCasaProtocolUrl("skinscasa://open?source=dashboard"), true);
+  assert.equal(isSkinsCasaProtocolUrl("skinscasa://open/unexpected"), false);
   assert.equal(isSkinsCasaProtocolUrl("https://skins.casa"), false);
   assert.equal(isSkinsCasaProtocolUrl("skinscasa://connect?token=secret"), false);
 });
